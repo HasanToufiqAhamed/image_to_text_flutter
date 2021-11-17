@@ -21,6 +21,7 @@ dependencies:
   image: ^3.0.8
   image_cropper: ^1.4.1
   sqflite: ^2.0.0+4
+  intl: ^0.17.0
 
   hive: ^2.0.3
   hive_flutter: ^1.0.0

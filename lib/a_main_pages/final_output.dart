@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_to_text/a_main_pages/final_tab/final_tab_image.dart';
 import 'package:image_to_text/a_main_pages/final_tab/final_tab_text.dart';
+import 'package:image_to_text/model/item_details.dart';
 import 'package:image_to_text/widget/text_detector_painter.dart';
 
 class FinalOutput extends StatefulWidget {
-  String filePath;
+  ItemDetails itemDetails;
 
-  FinalOutput({required this.filePath});
+  FinalOutput( {
+    required this.itemDetails,
+  });
 
   @override
   _FinalOutputState createState() => _FinalOutputState();
@@ -21,7 +24,6 @@ class _FinalOutputState extends State<FinalOutput>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
-    print(widget.filePath);
   }
 
   @override
@@ -38,7 +40,9 @@ class _FinalOutputState extends State<FinalOutput>
         children: [
           Row(
             children: [
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               TabBar(
                 indicatorColor: Colors.red,
                 labelColor: Colors.red,
@@ -47,15 +51,20 @@ class _FinalOutputState extends State<FinalOutput>
                   fontWeight: FontWeight.normal,
                   color: Colors.red,
                 ),
-
                 unselectedLabelStyle:
                     TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                 unselectedLabelColor: Colors.black26,
                 indicatorWeight: 10,
                 indicatorSize: TabBarIndicatorSize.label,
                 tabs: [
-                  Tab(text: "Text", icon: Icon(Icons.text_snippet_outlined),),
-                  Tab(text: "Image",  icon: Icon(Icons.image_outlined),),
+                  Tab(
+                    text: "Text",
+                    icon: Icon(Icons.text_snippet_outlined),
+                  ),
+                  Tab(
+                    text: "Image",
+                    icon: Icon(Icons.image_outlined),
+                  ),
                 ],
                 controller: _tabController,
                 indicator: UnderlineTabIndicator(
@@ -75,10 +84,10 @@ class _FinalOutputState extends State<FinalOutput>
             child: TabBarView(
               children: [
                 FinalTabText(
-                  imagePath: widget.filePath,
+                  imagePath: widget.itemDetails.text!,
                 ),
                 FinalTabImage(
-                  imagePath: widget.filePath,
+                  imagePath: widget.itemDetails.image!,
                 ),
               ],
               controller: _tabController,

@@ -1,12 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_to_text/a_main_pages/image_preview_page.dart';
 import 'package:image_to_text/box/boxes.dart';
 import 'package:image_to_text/model/item_details.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
+
+import 'final_output.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +21,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ImagePicker? _imagePicker;
 
+  final dateFormat = new DateFormat('d MMM yy, hh:mm a');
+
   @override
   void dispose() {
     Hive.box('items').close();
@@ -28,32 +33,33 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera),
-        onPressed: () {
-          // _getImage(ImageSource.camera);
-          addItemDetails(
-              '/data/user/0/hta.app.imagetotext.image_to_text/cache/image_cropper_1637132367494.jpg',
-              'hello text save');
-        },
-      ),
-      body: Column(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
         children: [
-          Container(
-            child: TextButton(
-              child: Text('hello'),
-              onPressed: () => _getImage(ImageSource.gallery),
-            ),
+          FloatingActionButton(
+            child: Icon(Icons.image),
+            onPressed: () {
+              _getImage(ImageSource.gallery);
+            },
           ),
-          ValueListenableBuilder<Box<ItemDetails>>(
-            valueListenable: Boxes.getItems().listenable(),
-            builder: (context, box, _) {
-              final itemDetails = box.values.toList().cast<ItemDetails>();
-
-              return makeList(itemDetails);
+          SizedBox(width: 15,),
+          FloatingActionButton(
+            child: Icon(Icons.camera),
+            onPressed: () {
+              _getImage(ImageSource.camera);
             },
           ),
         ],
+      ),
+      body: SingleChildScrollView(
+        child: ValueListenableBuilder<Box<ItemDetails>>(
+          valueListenable: Boxes.getItems().listenable(),
+          builder: (context, box, _) {
+            List<ItemDetails> itemDetails = box.values.toList().cast<ItemDetails>().reversed.toList();
+
+            return makeList(itemDetails);
+          },
+        ),
       ),
     );
   }
@@ -61,14 +67,36 @@ class _HomePageState extends State<HomePage> {
   makeList(List<ItemDetails> item) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: item.length,
       itemBuilder: (context, index) => ListTile(
-        title: Text('${item[index].text}'),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => FinalOutput(
+                itemDetails: item[index],
+              ),
+            ),
+          );
+        },
+        title: Text(
+          '${item[index].text}',
+          maxLines: 2,
+        ),
         leading: Container(
-          height: 80,
-          width: 100,
+          width: 80,
+          height: 1000,
+          color: Colors.black12,
           child: Image.file(
-            File(item[index].image!),
+            File(
+              item[index].image!,
+            ),
+          ),
+        ),
+        subtitle: Text(
+          '${dateFormat.format(item[index].createdAt!)}',
+          style: TextStyle(
+            fontSize: 12,
           ),
         ),
       ),
@@ -116,9 +144,6 @@ class _HomePageState extends State<HomePage> {
     BuildContext context,
     ItemDetails transaction,
   ) {
-    /*final color = transaction.isExpense ? Colors.red : Colors.green;
-    final date = DateFormat.yMMMd().format(transaction.createdDate);
-    final amount = '\$' + transaction.amount.toStringAsFixed(2);*/
 
     return Card(
       color: Colors.white,
