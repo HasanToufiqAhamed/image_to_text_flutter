@@ -84,7 +84,7 @@ class _FinalOutputState extends State<FinalOutput>
             child: TabBarView(
               children: [
                 FinalTabText(
-                  imagePath: widget.itemDetails.text!,
+                  text: widget.itemDetails.text!,
                 ),
                 FinalTabImage(
                   imagePath: widget.itemDetails.image!,
