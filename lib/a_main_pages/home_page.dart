@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Photo to Text'),
+        title: Text('Image to Text'),
       ),
       body: Stack(
         alignment: Alignment.topCenter,
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     } else {
-      print('No image selected.');
+      print('No images selected.');
     }
   }
 

@@ -183,7 +183,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     File? croppedFile = await ImageCropper.cropImage(
       sourcePath: path,
       androidUiSettings: AndroidUiSettings(
-        toolbarTitle: 'Crop image',
+        toolbarTitle: 'Crop images',
         toolbarColor: Colors.black,
         toolbarWidgetColor: Colors.white,
         initAspectRatio: CropAspectRatioPreset.original,
@@ -195,7 +195,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         hideBottomControls: true,
       ),
       iosUiSettings: IOSUiSettings(
-        title: 'Crop image',
+        title: 'Crop images',
         hidesNavigationBar: true,
       ),
     );

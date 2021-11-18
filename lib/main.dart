@@ -32,6 +32,13 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.lightBlueAccent,
+          elevation: 0
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.lightBlueAccent,
+        )
       ),
       home: SplashActivity(),
     );
@@ -59,6 +66,7 @@ class _SplashActivityState extends State<SplashActivity> {
     startAnim();
   }
 
+
   void startAnim() async {
     await Future.delayed(Duration(milliseconds: 100));
     setState(() {
@@ -67,7 +75,7 @@ class _SplashActivityState extends State<SplashActivity> {
   }
 
   startTime() async {
-    return Timer(Duration(milliseconds: 100), navigationPage);
+    return Timer(Duration(milliseconds: 1700), navigationPage);
   }
 
   void navigationPage() {
@@ -90,10 +98,13 @@ class _SplashActivityState extends State<SplashActivity> {
           //color: selected ? Colors.red : Colors.blue,
           alignment:
           selected ? Alignment.center : AlignmentDirectional.topCenter,
-          duration: const Duration(seconds: 2),
+          duration: const Duration(milliseconds: 1400),
           curve: Curves.fastOutSlowIn,
-          child: Center(
-            child: Icon(Icons.email),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(1000),
+            child: Center(
+              child: Image.asset('assets/images/itot.png'),
+            ),
           ),
         ),
       ),

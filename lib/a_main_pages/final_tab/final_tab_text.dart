@@ -25,7 +25,7 @@ class _FinalTabTextState extends State<FinalTabText> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.file_copy),
+        child: Icon(Icons.file_copy,),
         onPressed: () {
           Clipboard.setData(ClipboardData(text: '${textField.text}'));
           Fluttertoast.showToast(msg: 'Text copy tou your clipboard');
